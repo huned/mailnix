@@ -17,4 +17,4 @@ config.action_controller.perform_caching             = false
 config.action_mailer.perform_deliveries = true
 config.action_mailer.raise_delivery_errors = true
 config.action_mailer.delivery_method = :smtp
-config.action_mailer.smtp_settings = { :port => 25, :domain => 'example.com' }
+config.action_mailer.smtp_settings = { :port => 2525, :domain => 'example.com' }
