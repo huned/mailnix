@@ -8,14 +8,12 @@ class Notifier < ActionMailer::Base
   end
 
   def receive mail
-    to = mail['to'].addrs.first.address
     from = mail['from'].addrs.first.address
-    body = mail.parts.find {|p| p.content_type == 'text/plain' }.body
-
-    # TODO create a command
+    input = mail.body.strip
+    Command.create! :from => from, :input => input
   end
 
-  def process_inbox
+  def self.process_inbox
     # config
     config = YAML::load_file 'config/inbox.yml'
     lock = File.new config['lock_file'], 'w'
@@ -30,9 +28,9 @@ class Notifier < ActionMailer::Base
 
         # find only messages for this Rails.env
 
-        reply_to = 'reply'
-        reply_to += "+#{Rails.env}" unless Rails.env == 'production'
-        options = [ 'TO', reply_to ]
+        to = 'gomailnix'
+        to += "+#{Rails.env}" unless Rails.env == 'production'
+        options = [ 'TO', to ]
         imap.search(options).each do |message_id|
           # fetch
           mail = imap.fetch(message_id, ['RFC822']).first.attr['RFC822']
