@@ -1,0 +1,5 @@
+host: imap.gmail.com
+port: 993
+email: gomailnix@gmail.com
+password: passw0rd
+lock_file: tmp/inbox_lock
